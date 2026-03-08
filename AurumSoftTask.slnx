@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="AurumSoftTask.Core/AurumSoftTask.Core.csproj" />
   <Project Path="AurumSoftTask.Services/AurumSoftTask.Services.csproj" />
+  <Project Path="AurumSoftTask.Services.Tests/AurumSoftTask.Services.Tests.csproj" />
 </Solution>
