@@ -16,7 +16,9 @@
         MissingRockType,
         DuplicateWellId,
         IncorrectColumnCount,
-        NumericFieldParseError
+        NumericFieldParseError,
+        NegativeDepth,
+        OverlappingIntervals
     }
 
     public static class ValidationErrorExtensions
@@ -30,6 +32,8 @@
             ValidationErrorType.DuplicateWellId => "Идентификатор скважины должен быть уникальным.",
             ValidationErrorType.IncorrectColumnCount => "Неверное количество столбцов в строке.",
             ValidationErrorType.NumericFieldParseError => "Ошибка при разборе числового поля.",
+            ValidationErrorType.NegativeDepth => "Глубина не может быть отрицательной.",
+            ValidationErrorType.OverlappingIntervals => "Интервалы скважины перекрываются.",
             _ => "Неизвестная ошибка."
         };
     }
