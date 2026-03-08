@@ -14,7 +14,9 @@
         InvalidDepthRange,
         InvalidPorosityValue,
         MissingRockType,
-        DuplicateWellId
+        DuplicateWellId,
+        IncorrectColumnCount,
+        NumericFieldParseError
     }
 
     public static class ValidationErrorExtensions
@@ -25,6 +27,9 @@
             ValidationErrorType.InvalidDepthRange => "DepthFrom должен быть меньше DepthTo.",
             ValidationErrorType.InvalidPorosityValue => "Пористость должна быть в диапазоне [0..1].",
             ValidationErrorType.MissingRockType => "Название породы не может быть пустым.",
+            ValidationErrorType.DuplicateWellId => "Идентификатор скважины должен быть уникальным.",
+            ValidationErrorType.IncorrectColumnCount => "Неверное количество столбцов в строке.",
+            ValidationErrorType.NumericFieldParseError => "Ошибка при разборе числового поля.",
             _ => "Неизвестная ошибка."
         };
     }
