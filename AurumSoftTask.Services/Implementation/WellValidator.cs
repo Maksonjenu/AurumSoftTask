@@ -1,7 +1,7 @@
 ﻿using AurumSoftTask.Core.Models;
 using AurumSoftTask.Services.Interfaces;
 
-namespace AurumSoftTask.Services.Implementations;
+namespace AurumSoftTask.Services.Implementation;
 
 public class WellValidator : IWellValidator
 {
