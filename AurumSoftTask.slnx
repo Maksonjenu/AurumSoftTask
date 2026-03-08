@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="AurumSoftTask.Core/AurumSoftTask.Core.csproj" />
-  <Project Path="AurumSoftTask.Services/AurumSoftTask.Services.csproj" />
   <Project Path="AurumSoftTask.Services.Tests/AurumSoftTask.Services.Tests.csproj" />
+  <Project Path="AurumSoftTask.Services/AurumSoftTask.Services.csproj" />
+  <Project Path="AurumSoftTask.WPF/AurumSoftTask.WPF.csproj" Id="e46d028e-8fd6-40e5-8e4f-728b19414cae" />
 </Solution>
