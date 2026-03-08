@@ -14,17 +14,18 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="23"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>-->
 
-        <Menu Grid.ColumnSpan="3">
+        <Menu>
             <MenuItem Header="File">
                 <MenuItem Header="Open" Command="{Binding LoadFileCommand}"/>
                 <MenuItem Header="Save" />
@@ -32,8 +33,8 @@
             </MenuItem>
         </Menu>
 
-        <DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Summaries}"/>
-        <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Errors}"/>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Summaries}"/>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Errors}"/>
 
 
 
