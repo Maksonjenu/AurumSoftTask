@@ -101,3 +101,4 @@ foreach (var summary in summaries)
 dotnet test AurumSoftTask.Services.Tests/AurumSoftTask.Services.Tests.csproj
 ```
 
+[![.NET Build and Test](https://github.com/Maksonjenu/AurumSoftTask/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Maksonjenu/AurumSoftTask/actions/workflows/dotnet.yml)
