@@ -104,6 +104,33 @@ public class CsvParserTests
     }
 
     [Test]
+    public void Parse_TrailingEmptyLines_Skipped()
+    {
+        var tempPath = Path.GetTempFileName();
+        try
+        {
+            File.WriteAllLines(tempPath, new[]
+            {
+                "WellId;X;Y;DepthFrom;DepthTo;Rock;Porosity",
+                "A-001;1;2;0;10;Sandstone;0.18",
+                "",
+                "   "
+            });
+
+            var (rows, parseErrors) = _parser.Parse(tempPath);
+
+            Assert.That(parseErrors, Is.Empty);
+            Assert.That(rows, Has.Count.EqualTo(1));
+            Assert.That(rows[0].WellId, Is.EqualTo("A-001"));
+        }
+        finally
+        {
+            if (File.Exists(tempPath))
+                File.Delete(tempPath);
+        }
+    }
+
+    [Test]
     public void Parse_HeaderLine_Skipped()
     {
         var path = GetTestDataPath("valid_sample.csv");
