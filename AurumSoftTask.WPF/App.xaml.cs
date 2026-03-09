@@ -21,7 +21,9 @@ namespace AurumSoftTask.WPF
             var validator = new WellValidator();
             var analyzer = new WellAnalyzer();
 
-            var mainViewModel = new MainViewModel(parser, validator, analyzer);
+            var exporter = new JsonExportService();
+
+            var mainViewModel = new MainViewModel(parser, validator, analyzer, exporter);
 
             var mainWindow = new MainWindow
             {

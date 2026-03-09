@@ -10,7 +10,7 @@
         d:DataContext="{d:DesignInstance Type=vm:MainViewModel, IsDesignTimeCreatable=False}"
         
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="400">
+        Title="MainWindow" Height="520" Width="800">
     <Grid>
 
         <Grid.RowDefinitions>
@@ -19,22 +19,25 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>-->
-
         <Menu>
-            <MenuItem Header="File">
+            <MenuItem Header="File" Height="23">
                 <MenuItem Header="Open" Command="{Binding LoadFileCommand}"/>
-                <MenuItem Header="Save" />
-                <MenuItem Header="Exit" />
+                <MenuItem Header="Save" Command="{Binding SaveFileCommand}"/>
             </MenuItem>
         </Menu>
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Summaries}"/>
-        <DataGrid Grid.Row="2" ItemsSource="{Binding Errors}"/>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
+            <TextBlock Text="Valid data"/>
+            <DataGrid ItemsSource="{Binding Summaries}"/>
+        </StackPanel>
+
+
+        <StackPanel Grid.Row="2" Margin="5">
+            <TextBlock Text="Invalid data"/>
+            <DataGrid ItemsSource="{Binding Errors}"/>
+        </StackPanel>
+        
 
 
 
