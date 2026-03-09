@@ -1,12 +1,15 @@
 ## AurumSoftTask
 
+[![.NET Build and Test](https://github.com/Maksonjenu/AurumSoftTask/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Maksonjenu/AurumSoftTask/actions/workflows/dotnet.yml)
+
 Библиотека для разбора, валидации и анализа данных по скважинам из CSV-файлов. Решение тестового задания.
 
 Основной сценарий:
 
-- прочитать CSV с интервалами по скважинам;
-- отфильтровать некорректные строки с понятными ошибками;
-- посчитать агрегированные показатели по каждой скважине.
+- прочитать CSV с интервалами по скважинам
+- отфильтровать некорректные строки с понятными ошибками
+- посчитать агрегированные показатели по каждой скважине
+- Экспорт **только валидных** данных в JSON (невалидные данные выводятся в отдельную таблицу)
 
 Формат входных данных (разделитель `;`):
 
@@ -101,4 +104,4 @@ foreach (var summary in summaries)
 dotnet test AurumSoftTask.Services.Tests/AurumSoftTask.Services.Tests.csproj
 ```
 
-[![.NET Build and Test](https://github.com/Maksonjenu/AurumSoftTask/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Maksonjenu/AurumSoftTask/actions/workflows/dotnet.yml)
+
