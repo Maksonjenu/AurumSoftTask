@@ -53,6 +53,14 @@ dotnet restore
 dotnet build
 ```
 
+### Запуск приложения
+
+Для запуска приложения с графическим интерфейсом: 
+
+```bash
+dotnet run --project AurumSoftTask.WPF
+```
+
 ### Пример использования сервисов
 
 ```csharp
