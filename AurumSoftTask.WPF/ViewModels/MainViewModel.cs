@@ -16,6 +16,8 @@ namespace AurumSoftTask.WPF.ViewModels
         private IWellValidator _wellValidator;
         private IWellAnalyzer _wellAnalyzer;
 
+        private IExportService _exportService;
+
         [ObservableProperty]
         private ObservableCollection<WellSummary> _summaries;
 
@@ -25,7 +27,7 @@ namespace AurumSoftTask.WPF.ViewModels
         [ObservableProperty]
         private bool _isLoading;
 
-        public MainViewModel(ICsvParser parser, IWellValidator validator, IWellAnalyzer analyzer)
+        public MainViewModel(ICsvParser parser, IWellValidator validator, IWellAnalyzer analyzer, IExportService exporter)
         {
             _summaries = new ObservableCollection<WellSummary>();
             _errors = new ObservableCollection<ValidationError>();
@@ -33,6 +35,8 @@ namespace AurumSoftTask.WPF.ViewModels
             _parser = parser;
             _wellValidator = validator;
             _wellAnalyzer = analyzer;
+
+            _exportService = exporter;
         }
 
         [RelayCommand]
@@ -66,6 +70,31 @@ namespace AurumSoftTask.WPF.ViewModels
                 finally
                 {
                     IsLoading = false;
+                }
+            }
+        }
+
+        [RelayCommand]
+        private async Task SaveFileAsync()
+        {
+            if (Summaries == null || !Summaries.Any()) return;
+
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "JSON files (*.json)|*.json",
+                FileName = $"WellSummary.json"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    await _exportService.ExportAsync(Summaries, saveFileDialog.FileName);
+                    MessageBox.Show("Данные успешно экспортированы!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при сохранении: {ex.Message}");
                 }
             }
         }
