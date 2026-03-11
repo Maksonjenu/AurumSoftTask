@@ -24,6 +24,7 @@
                 <MenuItem Header="Open" Command="{Binding LoadFileCommand}"/>
                 <MenuItem Header="Save" Command="{Binding SaveFileCommand}"/>
             </MenuItem>
+            <CheckBox Content="Use LLM normalization for rocks" IsChecked="{Binding UseLlmNormalization}"/>
         </Menu>
 
 
