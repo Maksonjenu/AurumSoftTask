@@ -21,9 +21,11 @@ namespace AurumSoftTask.WPF
             var validator = new WellValidator();
             var analyzer = new WellAnalyzer();
 
+            var normalizer = new LMStudioDataNormalizationService();
+
             var exporter = new JsonExportService();
 
-            var mainViewModel = new MainViewModel(parser, validator, analyzer, exporter);
+            var mainViewModel = new MainViewModel(parser, validator, analyzer, exporter, normalizer);
 
             var mainWindow = new MainWindow
             {
