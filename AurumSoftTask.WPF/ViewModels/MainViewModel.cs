@@ -16,6 +16,8 @@ namespace AurumSoftTask.WPF.ViewModels
         private IWellValidator _wellValidator;
         private IWellAnalyzer _wellAnalyzer;
 
+        private IDataNormalizationService _normalizationService;
+
         private IExportService _exportService;
 
         [ObservableProperty]
@@ -27,7 +29,10 @@ namespace AurumSoftTask.WPF.ViewModels
         [ObservableProperty]
         private bool _isLoading;
 
-        public MainViewModel(ICsvParser parser, IWellValidator validator, IWellAnalyzer analyzer, IExportService exporter)
+        [ObservableProperty]
+        private bool _useLlmNormalization;
+
+        public MainViewModel(ICsvParser parser, IWellValidator validator, IWellAnalyzer analyzer, IExportService exporter, IDataNormalizationService normalizer)
         {
             _summaries = new ObservableCollection<WellSummary>();
             _errors = new ObservableCollection<ValidationError>();
@@ -35,6 +40,8 @@ namespace AurumSoftTask.WPF.ViewModels
             _parser = parser;
             _wellValidator = validator;
             _wellAnalyzer = analyzer;
+
+            _normalizationService = normalizer;
 
             _exportService = exporter;
         }
@@ -57,7 +64,25 @@ namespace AurumSoftTask.WPF.ViewModels
 
                     var validatorResult = await Task.Run(() => _wellValidator.Validate(parseResult.Rows));
 
-                    var analyzerResult = await Task.Run(() => _wellAnalyzer.CalculateSummary(validatorResult.ValidRows));
+                    var rowsForAnalysis = validatorResult.ValidRows;
+                    //new step: normalize rock names before analysis
+
+                    if (_useLlmNormalization)
+                    {
+
+                        var uniqueRocks = rowsForAnalysis.Select(r => r.Rock).Distinct();
+                        var rockMapping = await _normalizationService.NormalizeRockNamesAsync(uniqueRocks);
+
+                        rowsForAnalysis = rowsForAnalysis.Select(row =>
+                            rockMapping.TryGetValue(row.Rock, out var normalizedRock)
+                            ? row with { Rock = normalizedRock }
+                            : row
+                        ).ToList();
+
+                        //end of new step
+
+                    }
+                    var analyzerResult = await Task.Run(() => _wellAnalyzer.CalculateSummary(rowsForAnalysis));
 
                     Summaries = new ObservableCollection<WellSummary>(analyzerResult);
                     var allErrors = parseResult.ParseErrors.Concat(validatorResult.ValidationErrors);
