@@ -5,7 +5,7 @@ namespace AurumSoftTask.Services.Interfaces
 {
     public interface IWellAnalyzer
     {
-        List<WellSummary> CalculateSummary(List<CsvRow> validRows);
+        List<WellSummary> CalculateSummary(List<Well> validRows);
 
     }
 }
