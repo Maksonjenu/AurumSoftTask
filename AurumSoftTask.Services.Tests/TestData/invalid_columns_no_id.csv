@@ -1,0 +1,4 @@
+WellId;X;Y;DepthFrom;DepthTo;Rock;Porosity
+;82.10
+A-002;90.00;60.00;0;15;Shale;0.04
+A-002;90.00;60.00;15;25;Sand;0.66

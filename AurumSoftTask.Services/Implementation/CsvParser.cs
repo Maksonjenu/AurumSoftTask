@@ -19,6 +19,17 @@ namespace AurumSoftTask.Services.Implementation
                 if (string.IsNullOrWhiteSpace(line.text)) continue;
 
                 var parts = line.text.Split(';');
+
+                if (string.IsNullOrWhiteSpace(parts[0]))
+                {
+                    errors.Add(CreateError(
+                        line.lineNumber,
+                        parts[0],
+                        ValidationErrorType.MissingWellId,
+                        ValidationErrorType.MissingWellId.GetDescription()
+                        ));
+                }
+
                 if (parts.Length != 7)
                 {
 
@@ -29,7 +40,8 @@ namespace AurumSoftTask.Services.Implementation
                         ValidationErrorType.IncorrectColumnCount.GetDescription()
 
                         ));
-                    continue;
+
+                    continue; //BUG: maybe it shoudnt skip parse, but include ALL file errors
                 }
 
                 // safe parse with invariant culture for decimal separator

@@ -63,6 +63,21 @@ public class CsvParserTests
     }
 
     [Test]
+    public void Parse_MissingWellId_ReturnsParseErrors()
+    {
+        var path = GetTestDataPath("invalid_columns_no_id.csv");
+        Assume.That(File.Exists(path), $"TestData file not found: {path}");
+
+        var (rows, parseErrors) = _parser.Parse(path);
+
+        Assert.That(parseErrors, Has.Count.EqualTo(2));
+        Assert.That(parseErrors[0].ErrorType, Is.EqualTo(ValidationErrorType.MissingWellId));
+        Assert.That(parseErrors[1].ErrorType, Is.EqualTo(ValidationErrorType.IncorrectColumnCount));
+        Assert.That(rows, Has.Count.EqualTo(2));
+        Assert.That(parseErrors[0].WellId, Is.EqualTo("Unknown"));
+    }
+
+    [Test]
     public void Parse_InvalidNumericField_ReturnsParseErrors()
     {
         var path = GetTestDataPath("invalid_numbers.csv");
