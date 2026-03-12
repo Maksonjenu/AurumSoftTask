@@ -80,6 +80,7 @@ foreach (var error in parseErrors)
     Console.WriteLine($"Parse error in line {error.LineWithError}: {error.ErrorDetails}");
 }
 
+//TODO: change args type for this showcase
 // валидация бизнес-правил
 var (validRows, validationErrors) = validator.Validate(rows);
 
@@ -89,7 +90,9 @@ foreach (var error in validationErrors)
 }
 
 // расчёт сводок для валидных строк
-List<WellSummary> summaries = analyzer.CalculateSummary(validRows);
+List<WellSummary> summaries = analyzer.CalculateSummary(validRows);//TODO: change args type for this showcase
+
+
 
 foreach (var summary in summaries)
 {
