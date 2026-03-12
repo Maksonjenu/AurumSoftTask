@@ -22,7 +22,7 @@ public class WellAnalyzerTests
     [Test]
     public void CalculateSummary_EmptyList_ReturnsEmptyList()
     {
-        var result = _analyzer.CalculateSummary(new List<CsvRow>());
+        var result = _analyzer.CalculateSummary(new List<Well>());
 
         Assert.That(result, Is.Empty);
     }
@@ -30,12 +30,28 @@ public class WellAnalyzerTests
     [Test]
     public void CalculateSummary_SingleWellSingleInterval_ReturnsOneSummary()
     {
-        var rows = new List<CsvRow>
+        var wells = new List<Well>
         {
-            Row(2, "A-001", 82.1, 55.2, 0, 10, "Sandstone", 0.18)
+            new Well()
+            {
+                WellId = "A-001",
+                X = 82.1,
+                Y = 55.2,
+                Intervals = new List<Interval>
+                {
+                    new Interval
+                    {
+                        DepthFrom = 0,
+                        DepthTo = 10,
+                        Rock = "Sandstone",
+                        Porosity = 0.18
+                    }
+                }
+
+            }
         };
 
-        var result = _analyzer.CalculateSummary(rows);
+        var result = _analyzer.CalculateSummary(wells);
 
         Assert.That(result, Has.Count.EqualTo(1));
         Assert.That(result[0].WellId, Is.EqualTo("A-001"));
@@ -48,16 +64,73 @@ public class WellAnalyzerTests
     [Test]
     public void CalculateSummary_ExampleData_ReturnsCorrectSummaries()
     {
-        var rows = new List<CsvRow>
+        var wells = new List<Well>
         {
-            Row(2, "A-001", 82.10, 55.20, 0, 10, "Sandstone", 0.18),
-            Row(3, "A-001", 82.10, 55.20, 10, 25, "Limestone", 0.07),
-            Row(4, "A-002", 90.00, 60.00, 0, 15, "Shale", 0.04),
-            Row(5, "A-002", 90.00, 60.00, 15, 40, "Sandstone", 0.22),
-            Row(6, "A-003", 100.10, 72.50, 0, 5, "Sandstone", 0.19)
+            new Well
+            {
+                WellId = "A-001",
+                X = 82.10,
+                Y = 55.20,
+                Intervals = new List<Interval>
+                {
+                    new Interval
+                    {
+                        DepthFrom = 0,
+                        DepthTo = 10,
+                        Rock = "Sandstone",
+                        Porosity = 0.18
+                    },
+                    new Interval
+                    {
+                        DepthFrom = 10,
+                        DepthTo = 25,
+                        Rock = "Limestone",
+                        Porosity = 0.07
+                    }
+                }
+            },
+            new Well
+            {
+                WellId = "A-002",
+                X = 90.00,
+                Y = 60.00,
+                Intervals = new List<Interval>
+                {
+                    new Interval
+                    {
+                        DepthFrom = 0,
+                        DepthTo = 15,
+                        Rock = "Shale",
+                        Porosity = 0.04
+                    },
+                    new Interval
+                    {
+                        DepthFrom = 15,
+                        DepthTo = 40,
+                        Rock = "Sandstone",
+                        Porosity = 0.22
+                    }
+                }
+            },
+            new Well
+            {
+                WellId = "A-003",
+                X = 100.10,
+                Y = 72.50,
+                Intervals = new List<Interval>
+                {
+                    new Interval
+                    {
+                        DepthFrom = 0,
+                        DepthTo = 5,
+                        Rock = "Sandstone",
+                        Porosity = 0.19
+                    }
+                }
+            }
         };
 
-        var result = _analyzer.CalculateSummary(rows);
+        var result = _analyzer.CalculateSummary(wells);
 
         Assert.That(result, Has.Count.EqualTo(3));
         Assert.That(result.Select(s => s.WellId).ToList(), Is.EqualTo(new[] { "A-001", "A-002", "A-003" }));
@@ -84,14 +157,59 @@ public class WellAnalyzerTests
     [Test]
     public void CalculateSummary_MultipleWells_OrderedByWellId()
     {
-        var rows = new List<CsvRow>
+        var wells = new List<Well>
         {
-            Row(2, "Z-001", 0, 0, 0, 5, "Shale", 0.1),
-            Row(3, "A-001", 0, 0, 0, 10, "Sandstone", 0.2),
-            Row(4, "M-001", 0, 0, 0, 8, "Limestone", 0.15)
+            new Well
+            {
+                WellId = "Z-001",
+                X = 0,
+                Y = 0,
+                Intervals = new List<Interval>
+                {
+                    new Interval
+                    {
+                        DepthFrom = 0,
+                        DepthTo = 5,
+                        Rock = "Shale",
+                        Porosity = 0.1
+                    }
+                }
+            },
+            new Well
+            {
+                WellId = "A-001",
+                X = 0,
+                Y = 0,
+                Intervals = new List<Interval>
+                {
+                    new Interval
+                    {
+                        DepthFrom = 0,
+                        DepthTo = 10,
+                        Rock = "Sandstone",
+                        Porosity = 0.2
+                    }
+                }
+            },
+            new Well
+            {
+                WellId = "M-001",
+                X = 0,
+                Y = 0,
+                Intervals = new List<Interval>
+                {
+                    new Interval
+                    {
+                        DepthFrom = 0,
+                        DepthTo = 8,
+                        Rock = "Limestone",
+                        Porosity = 0.15
+                    }
+                }
+            }
         };
 
-        var result = _analyzer.CalculateSummary(rows);
+        var result = _analyzer.CalculateSummary(wells);
 
         Assert.That(result, Has.Count.EqualTo(3));
         Assert.That(result[0].WellId, Is.EqualTo("A-001"));

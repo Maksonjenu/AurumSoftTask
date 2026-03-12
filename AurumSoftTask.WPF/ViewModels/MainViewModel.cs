@@ -57,7 +57,25 @@ namespace AurumSoftTask.WPF.ViewModels
 
                     var validatorResult = await Task.Run(() => _wellValidator.Validate(parseResult.Rows));
 
-                    var analyzerResult = await Task.Run(() => _wellAnalyzer.CalculateSummary(validatorResult.ValidRows));
+                    //TODO: make mapper
+                    List<Well> wells = validatorResult.ValidRows
+                    .GroupBy(r => r.WellId)
+                    .Select(g => new Well
+                    {
+                        WellId = g.Key,
+                        X = g.First().X,
+                        Y = g.First().Y,
+                        Intervals = g.Select(r => new Interval
+                        {
+                            DepthFrom = r.DepthFrom,
+                            DepthTo = r.DepthTo,
+                            Rock = r.Rock,
+                            Porosity = r.Porosity
+                        }).ToList()
+                    })
+                    .ToList();
+
+                    var analyzerResult = await Task.Run(() => _wellAnalyzer.CalculateSummary(wells));
 
                     Summaries = new ObservableCollection<WellSummary>(analyzerResult);
                     var allErrors = parseResult.ParseErrors.Concat(validatorResult.ValidationErrors);
